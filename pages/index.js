@@ -1,82 +1,122 @@
-import Head from 'next/head'
+import Head from 'next/head';
+import getYear from 'date-fns/getYear';
+import format from 'date-fns/format';
+import isBefore from 'date-fns/isBefore';
+import isAfter from 'date-fns/isAfter';
+import Header from '../components/header';
+import seasons from "../components/seasons";
+
+const today = new Date();
+const currYear = getYear(today);
+
+const currSeason = seasons.reduce(
+  (acc, curr, index) => {
+    if (
+      isAfter(today, new Date(currYear, curr.start.mon, curr.start.day)) &&
+      isBefore(today, new Date(currYear, curr.end.mon, curr.end.day))
+    ) {
+      return index;
+    } else {
+      return acc
+    }
+  }, -1
+);
+
+const currHou = currSeason && seasons[currSeason].hou.reduce(
+  (acc, curr, index) => {
+    if (
+      isAfter(today, new Date(currYear, curr.start.mon, curr.start.day)) &&
+      isBefore(today, new Date(currYear, curr.end.mon, curr.end.day))
+    ) {
+      return index;
+    } else {
+      return acc
+    }
+  }, -1
+)
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+    <div className="flex flex-col items-start text-lg antialiased font-medium text-gray-900 font-body">
       <Head>
-        <title>Create Next App</title>
+        <title>24 Seasons, 72 Hou</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex flex-col items-center justify-center flex-1 px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to{' '}
-          <a className="text-blue-600" href="https://nextjs.org">
-            Next.js!
-          </a>
-        </h1>
+      <main className="flex flex-row flex-wrap justify-center w-screen px-0 py-12 mx-auto text-left md:px-12 2xl:max-w-screen-2xl">
+        <div className="flex flex-col justify-start flex-grow flex-shrink-0 px-4 mb-20 w-96">
+          <div>24 Seasons, <span className="text-gray-500">72 Hou</span></div>
+          <div>A Classical Chinese Calendar of Natural Phenomena</div>
+          <div className="mt-8 italic text-gray-500">Today's season and hòu:</div>
+          <div>{seasons[currSeason].chi} {seasons[currSeason].eng}</div>
+          <div>{seasons[currSeason].hou[currHou].chi} {seasons[currSeason].hou[currHou].eng}</div>
 
-        <p className="mt-3 text-2xl">
-          Get started by editing{' '}
-          <code className="p-3 font-mono text-lg bg-gray-100 rounded-md">
-            pages/index.js
-          </code>
-        </p>
-
-        <div className="flex flex-wrap items-center justify-around max-w-4xl mt-6 sm:w-full">
-          <a
-            href="https://nextjs.org/docs"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Documentation &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Find in-depth information about Next.js features and API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Learn &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Learn about Next.js in an interactive course with quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Examples &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Discover and deploy boilerplate example Next.js projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Deploy &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+          <div className="my-8 text-gray-500">
+            <div className="italic">About Seasons:</div>
+            <div>
+              The cycle of 24 Seasons was a method of calendar-keeping in ancient East Asia, millennia before the adoption of the Gregorian calendar.
+              Each Season is divided into 3 unique <i>Hòu</i>, or five-day weeks.
+            </div>
+            <div className="mt-4">
+              These seasons and weeks were named after the cyclical machinations of nature, and proved to be a useful tool for farmers by the banks
+              of the Yellow River to orchestrate the sowing and reaping of crops.
+            </div>
+            <div className="mt-4">
+              The calendar of Seasons then spread across East Asia, and its use expanded past agriculture. Festivals, ceremonies, and daily life were
+              timed around this cycle.
+            </div>
+          </div>
+          <hr/>
+          <div className="my-8 text-gray-500">
+            <div className="italic">About Hòu:</div>
+            <div>
+              Each Season is divided into 3 Hòu, that defined an even more granular description of the passage of time. These hòu are considerably
+              more obscure than the Seasons, with wider variations between nations.
+            </div>
+          </div>
+          <hr/>
         </div>
+        <table className="w-full mx-0 lg:mx-20 lg:w-auto">
+          <thead>
+            <tr>
+              <th className="px-4 pb-2 font-normal text-gray-500">Name</th>
+              <th className="hidden md:table-cell"></th>
+              <th className="hidden px-4 pb-2 font-normal text-gray-500 sm:table-cell w-96">Translation</th>
+              <th className="px-4 pb-2 font-normal text-gray-500">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {seasons.map((season, sI) => {
+              return (
+                <React.Fragment key={sI}>
+                <tr>
+                  <td className="hidden px-4 pt-4 pb-2 align-top md:table-cell font-upright whitespace-nowrap">
+                    {sI === currSeason && (
+                      <div className="inline-block w-3 h-3 mr-2 -ml-6 rounded-full bg-gradient-to-b from-yellow-300 to-red-600"/>
+                    )} {season.py}
+                  </td>
+                  <td className="hidden px-4 pt-4 pb-2 align-top sm:table-cell whitespace-nowrap">{season.chi}</td>
+                  <td className="px-4 pt-4 pb-2 align-top">{season.eng}</td>
+                  {/* <td className="px-4 pt-4 pb-2">{format(new Date(currYear, season.start.mon, season.start.day), "MMM d")}</td> */}
+                </tr>
+                {season.hou.map((hou, hI) => {
+                  return (
+                    <tr className="text-gray-500" key={hI}>
+                      <td className="hidden px-4 py-2 align-top md:table-cell font-upright whitespace-nowrap">{sI === currSeason && hI === currHou && (
+                        <div className="inline-block w-3 h-3 mr-2 -ml-6 rounded-full bg-gradient-to-b from-yellow-200 to-red-500"/>
+                      )} {hou.py}</td>
+                      <td className="hidden px-4 py-2 align-top sm:table-cell whitespace-nowrap">{hou.chi}</td>
+                      <td className="px-4 py-2 align-top">{hou.eng}</td>
+                      <td className="px-4 py-2 align-top whitespace-nowrap">{format(new Date(currYear, hou.start.mon, hou.start.day), "MMM d")}</td>
+                    </tr>
+                  )
+                })}
+                </React.Fragment>
+              )
+            })}
+          </tbody>
+        </table>
       </main>
-
-      <footer className="flex items-center justify-center w-full h-24 border-t">
-        <a
-          className="flex items-center justify-center"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className="h-4 ml-2" />
-        </a>
-      </footer>
     </div>
   )
 }

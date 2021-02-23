@@ -1,3 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* @import url('https://fonts.googleapis.com/css2?family=Cormorant+Upright:wght@400;500&family=Cormorant:wght@400;500&display=swap'); */
+
+@font-face {
+  font-family: 'Satyr Web';
+  src: url('/fonts/Satyr/Satyr10Web-Regular.eot');
+  src: url('/fonts/Satyr/Satyr10Web-Regular.eot?#iefix') format('embedded-opentype'),
+     url('/fonts/Satyr/Satyr10Web-Regular.woff2') format('woff2'),
+       url('/fonts/Satyr/Satyr10Web-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Satyr Web';
+  src: url('/fonts/Satyr/Satyr10Web-Italic.eot');
+  src: url('/fonts/Satyr/Satyr10Web-Italic.eot?#iefix') format('embedded-opentype'),
+     url('/fonts/Satyr/Satyr10Web-Italic.woff2') format('woff2'),
+       url('/fonts/Satyr/Satyr10Web-Italic.woff') format('woff');
+  font-weight: normal;
+  font-style: italic;
+}
+
+body {
+  background-color: #f9f9f9;
+}
+
